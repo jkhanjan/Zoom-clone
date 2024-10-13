@@ -18,6 +18,7 @@ const Navbar = () => {
           width={32}
           height={32}
           className="max-sm:size-10"
+          alt="image"
         />
         <p className="text-[26px] font-extrabold text-white max-sm:hidden">
           Yoom

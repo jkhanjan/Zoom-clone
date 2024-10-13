@@ -16,7 +16,7 @@ const CallList = ({ type }: { type: "ended" | "upcoming" | "recordings" }) => {
   const router = useRouter();
   const [recordings, setRecordings] = useState<CallRecording[]>([]);
 
-  const {toast} = useToast();
+  const { toast } = useToast();
 
   const getCalls = () => {
     switch (type) {
@@ -55,11 +55,11 @@ const CallList = ({ type }: { type: "ended" | "upcoming" | "recordings" }) => {
 
         setRecordings(recordings);
       } catch (error) {
-        toast({title: 'Try again later'})
+        toast({ title: "Try again later" });
       }
     };
     if (type === "recordings") fetchRecordings();
-  }, [type, callRecordings]);
+  }, [type, callRecordings, toast]); // added 'toast' here
 
   const calls = getCalls();
   const noCallsMessage = getNoCallsMessages();

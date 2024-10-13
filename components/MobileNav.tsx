@@ -23,6 +23,7 @@ const MobileNav = () => {
             width={36}
             height={36}
             className="cursor-pointer sm:hidden"
+            alt="Hamburger menu icon" // Added alt prop
           />
         </SheetTrigger>
         <SheetContent side="left" className="border-none bg-dark-1 ">
@@ -32,6 +33,7 @@ const MobileNav = () => {
               width={32}
               height={32}
               className="max-sm:size-10"
+              alt="Yoom logo" // Added alt prop
             />
             <p className="text-[26px] font-extrabold text-white max-sm:hidden">
               Yoom
@@ -41,7 +43,6 @@ const MobileNav = () => {
           <div className="flex h-[calc(100vh -72px)] flex-col justify-between overflow-y-auto">
             <SheetClose asChild>
               <section className="flex h-full flex-col gap-6 pt-16 text-white">
-                {" "}
                 {sidebarLinks.map((link) => {
                   const isActive = pathName === link.route;
                   return (
@@ -56,7 +57,7 @@ const MobileNav = () => {
                       >
                         <Image
                           src={link.imgUrl}
-                          alt={link.label}
+                          alt={link.label} // Added alt prop
                           width={20}
                           height={20}
                         />
