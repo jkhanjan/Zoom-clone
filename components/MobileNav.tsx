@@ -4,9 +4,6 @@ import {
   Sheet,
   SheetClose,
   SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
 import Image from "next/image";
@@ -46,8 +43,7 @@ const MobileNav = () => {
               <section className="flex h-full flex-col gap-6 pt-16 text-white">
                 {" "}
                 {sidebarLinks.map((link) => {
-                  const isActive =
-                    pathName === link.route;
+                  const isActive = pathName === link.route;
                   return (
                     <SheetClose asChild key={link.route}>
                       <Link
