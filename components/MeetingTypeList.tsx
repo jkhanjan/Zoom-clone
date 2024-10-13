@@ -102,25 +102,27 @@ const MeetingTypeList = () => {
 
       {!callDetail ? (
         <MeetingModal
-          isOpen={meetingState === "isScheduleMeeting"}
+          isOpen={meetingState === "isScheduledMeeting"}
           onClose={() => setMeetingState(undefined)}
           title="Create Meeting"
           handleClick={createMeeting}
+          className="text-left"
+          buttonText="Create Meeting"
         >
           <div className="flex flex-col gap-2.5">
-            <label className="text-base font-normal leading-[22.4px] text-sky-2">
+            <label className="text-base text-normal leading-[22px] text-sky-2">
               Add a description
             </label>
             <Textarea
               className="border-none bg-dark-3 focus-visible:ring-0 focus-visible:ring-offset-0"
-              onChange={(e) =>
-                setValues({ ...values, description: e.target.value })
-              }
+              onChange={(e) => {
+                setValues({ ...values, description: e.target.value });
+              }}
             />
           </div>
           <div className="flex w-full flex-col gap-2.5">
-            <label className="text-base font-normal leading-[22.4px] text-sky-2">
-              Select Date and Time
+            <label className="text-base text-normal leading-[22px] text-sky-2">
+              Select date and Time
             </label>
             <ReactDatePicker
               selected={values.dateTime}
