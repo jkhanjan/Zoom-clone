@@ -1,4 +1,3 @@
-//@ts-expect-error
 "use client";
 import { useGetCalls } from "@/hooks/useGetCalls";
 import { CallRecording } from "@stream-io/node-sdk";
