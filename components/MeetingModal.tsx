@@ -14,6 +14,7 @@ interface MeetingModalProps {
   handleClick?: () => void;
   buttonText: string;
   image?: string;
+  buttonIcon?: string;
 }
 const MeetingModal = ({
   isOpen,
