@@ -9,9 +9,13 @@ import { Call } from "@stream-io/video-react-sdk";
 import Loader from "./Loader";
 import { useToast } from "@/hooks/use-toast";
 
+// Type guard function
+function isCallRecording(meeting: Call | CallRecording): meeting is CallRecording {
+  return 'start_time' in meeting;
+}
+
 const CallList = ({ type }: { type: "ended" | "upcoming" | "recordings" }) => {
-  const { endedCalls, upcomingCalls, callRecordings, isLoading } =
-    useGetCalls();
+  const { endedCalls, upcomingCalls, callRecordings, isLoading } = useGetCalls();
   const router = useRouter();
   const [recordings, setRecordings] = useState<CallRecording[]>([]);
   const { toast } = useToast();
@@ -51,12 +55,12 @@ const CallList = ({ type }: { type: "ended" | "upcoming" | "recordings" }) => {
         const newRecordings = callData
           .filter((call) => call.recordings.length > 0)
           .flatMap((call) => call.recordings);
-
+        
         // Convert string dates to Date objects
-        const convertedRecordings = newRecordings.map((recording) => ({
+        const convertedRecordings = newRecordings.map(recording => ({
           ...recording,
           start_time: new Date(recording.start_time),
-          end_time: new Date(recording.end_time),
+          end_time: new Date(recording.end_time)
         }));
 
         setRecordings(convertedRecordings);
@@ -78,7 +82,7 @@ const CallList = ({ type }: { type: "ended" | "upcoming" | "recordings" }) => {
       {calls && calls.length > 0 ? (
         calls.map((meeting: Call | CallRecording) => (
           <MeetingCards
-            key={"id" in meeting ? meeting.id : meeting.url}
+            key={isCallRecording(meeting) ? meeting.url : meeting.id}
             icon={
               type === "ended"
                 ? "/icons/upcoming.svg"
@@ -87,30 +91,29 @@ const CallList = ({ type }: { type: "ended" | "upcoming" | "recordings" }) => {
                 : "/icons/recordings.svg"
             }
             title={
-              "state" in meeting && meeting.state?.custom?.description
+              !isCallRecording(meeting) && meeting.state?.custom?.description
                 ? meeting.state.custom.description.substring(0, 20)
                 : "No Description"
             }
             date={
-              "state" in meeting && meeting.state?.startsAt
+              isCallRecording(meeting)
+                ? meeting.start_time.toLocaleString()
+                : meeting.state?.startsAt
                 ? meeting.state.startsAt.toLocaleString()
-                : meeting.start_time.toLocaleString()
+                : "No date available"
             }
             isPreviousMeeting={type === "ended"}
             buttonIcon1={type === "recordings" ? "/icons/play.svg" : undefined}
             buttonText={type === "recordings" ? "Play" : "Start"}
             handleClick={
-              type === "recordings"
+              isCallRecording(meeting)
                 ? () => router.push(meeting.url)
-                : () =>
-                    router.push(`/meeting/${"id" in meeting ? meeting.id : ""}`)
+                : () => router.push(`/meeting/${meeting.id}`)
             }
             link={
-              type === "recordings"
+              isCallRecording(meeting)
                 ? meeting.url
-                : `${process.env.NEXT_PUBLIC_BASE_URL}/meeting/${
-                    "id" in meeting ? meeting.id : ""
-                  }`
+                : `${process.env.NEXT_PUBLIC_BASE_URL}/meeting/${meeting.id}`
             }
           />
         ))
